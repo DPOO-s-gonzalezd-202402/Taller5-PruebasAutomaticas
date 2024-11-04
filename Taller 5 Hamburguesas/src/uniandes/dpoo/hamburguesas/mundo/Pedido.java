@@ -163,5 +163,9 @@ public class Pedido
         out.print( factura );
         out.close( );
     }
+    public ArrayList<Producto> getProductos(){
+    	return this.productos;
+    }
+    
 
 }

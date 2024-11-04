@@ -100,7 +100,7 @@ public class Restaurante
     {
         if( pedidoEnCurso == null )
             throw new NoHayPedidoEnCursoException( );
-
+        pedidos.add(pedidoEnCurso);
         String nombreArchivo = PREFIJO_FACTURAS + pedidoEnCurso.getIdPedido( ) + ".txt";
         pedidoEnCurso.guardarFactura( new File( CARPETA_FACTURAS + nombreArchivo ) );
         pedidoEnCurso = null;
@@ -192,7 +192,7 @@ public class Restaurante
                         if( i.getNombre( ).equals( nombreIngrediente ) )
                         {
                             throw new IngredienteRepetidoException( nombreIngrediente );
-                        }
+                        } 
                     }
                     this.ingredientes.add( ingrediente );
                 }
