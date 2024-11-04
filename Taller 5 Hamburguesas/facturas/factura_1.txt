@@ -1,0 +1,7 @@
+Cliente: Jungkook
+Dirección: Ines 1445
+----------------
+----------------
+Precio Neto:  0
+IVA:          0
+Precio Total: 0

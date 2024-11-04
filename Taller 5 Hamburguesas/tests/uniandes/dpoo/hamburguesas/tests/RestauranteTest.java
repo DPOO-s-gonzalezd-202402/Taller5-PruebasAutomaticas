@@ -66,26 +66,35 @@ public class RestauranteTest {
     }
 	
 	@Test
-	void testCerrarYGuardarPedidoReal() throws NoHayPedidoEnCursoException,YaHayUnPedidoEnCursoException, IOException  {
-        
-        restaurante.iniciarPedido("Jungkook", "Ines 1445");
-        File archivoFactura = new File("./facturas/" + restaurante.getPedidoEnCurso().getIdPedido());
-        restaurante.cerrarYGuardarPedido(); 
+	void testCerrarYGuardarPedidoReal() throws NoHayPedidoEnCursoException, YaHayUnPedidoEnCursoException, IOException {
+	    new File("./facturas").mkdirs();
 
-        String nombreArchivo = "factura_" + restaurante.getPedidos().get(0).getIdPedido() + ".txt"; 
-        assertTrue(archivoFactura.exists(), "El archivo de la factura debe existir");
-
-        // Limpia el archivo después de la verificación
-        archivoFactura.delete();
-    }
-	@Test
-	void testGetPedidos() throws Exception {
 	    restaurante.iniciarPedido("Jungkook", "Ines 1445");
-	    restaurante.cerrarYGuardarPedido(); 
+	    
+	    restaurante.cerrarYGuardarPedido();
+	    
+	    assertNull(restaurante.getPedidoEnCurso(), "El pedido en curso debe ser null después de cerrar el pedido");
 
-	    assertEquals(1, restaurante.getPedidos().size()); 
-	    assertEquals("Jungkook", restaurante.getPedidos().get(0).getNombreCliente());
+	    assertEquals(1, restaurante.getPedidos().size(), "La lista de pedidos cerrados debe contener un pedido");
+	    
+	    File archivoFactura = new File("./facturas/factura_" + restaurante.getPedidos().get(0).getIdPedido() + ".txt");
+	    assertTrue(archivoFactura.exists(), "El archivo de factura debe existir");
+	    
 	}
+
+	@Test
+	void testGetPedidos() throws YaHayUnPedidoEnCursoException, NoHayPedidoEnCursoException, IOException {
+	    restaurante.iniciarPedido("Jungkook", "Ines 1445");
+	    
+	    restaurante.cerrarYGuardarPedido();
+
+	    ArrayList<Pedido> pedidos = restaurante.getPedidos();
+
+	    assertFalse(pedidos.isEmpty(), "La lista de pedidos no debe estar vacía después de cerrar un pedido.");
+	    Pedido pedidoCerrado = pedidos.get(0); 
+	    assertEquals("Jungkook", pedidoCerrado.getNombreCliente(), "El nombre del cliente del pedido cerrado debe ser 'Jungkook'.");
+	}
+
 	@Test
 	void testGetMenuBase() throws Exception {
 	    ProductoMenu hamburguesa = new ProductoMenu("Hamburguesa", 15000);
@@ -116,6 +125,8 @@ public class RestauranteTest {
 	    assertEquals(1, ingredientes.size()); 
 	    assertEquals("Lechuga", ingredientes.get(0).getNombre());
 	}
+	
+
 
 
 }
