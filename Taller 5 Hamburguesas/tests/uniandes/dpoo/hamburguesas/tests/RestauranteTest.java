@@ -17,6 +17,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import uniandes.dpoo.hamburguesas.excepciones.HamburguesaException;
 import uniandes.dpoo.hamburguesas.excepciones.NoHayPedidoEnCursoException;
 import uniandes.dpoo.hamburguesas.excepciones.YaHayUnPedidoEnCursoException;
 import uniandes.dpoo.hamburguesas.mundo.Combo;
@@ -125,7 +126,20 @@ public class RestauranteTest {
 	    assertEquals(1, ingredientes.size()); 
 	    assertEquals("Lechuga", ingredientes.get(0).getNombre());
 	}
-	
+
+    @Test
+    public void testCargarIngredientesRestaurante() throws HamburguesaException, NumberFormatException, IOException {
+        File archivoIngredientes = new File("src/data/ingredientes.txt");
+        File archivoMenu = new File("src/data/menu.txt");
+        File archivoCombos = new File("src/data/combos.txt");
+
+        restaurante.cargarInformacionRestaurante(archivoIngredientes, archivoMenu, archivoCombos);
+
+        assertNotNull(restaurante.getIngredientes());
+        assertEquals(14, restaurante.getIngredientes().size()); 
+ }
+    
+
 
 
 
